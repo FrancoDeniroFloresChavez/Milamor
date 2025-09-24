@@ -1,0 +1,326 @@
+---
+const current = Astro.url.pathname;
+---
+
+<header>
+    <div>
+        <h1>Milamor</h1>
+        <img src="/Rose.png" alt="" />
+    </div>
+
+    <!-- 🔹 Botón hamburguesa (solo visible en móvil) -->
+    <button class="menu-toggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="nav">
+        <ul>
+            <li>
+                <a href="/" class={current === "/" ? "active" : ""}>Inicio</a>
+            </li>
+            <li>
+                <a
+                    href="/catalogo"
+                    class={current === "/catalogo" ? "active" : ""}
+                >
+                    Catalogo
+                </a>
+            </li>
+            <li>
+                <a
+                    href="/contacto"
+                    class={current === "/contacto" ? "active" : ""}
+                >
+                    Contacto
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- 🔹 JavaScript para el menú móvil -->
+<script>
+    // @ts-nocheck
+    document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.querySelector(".menu-toggle");
+        const nav = document.querySelector(".nav");
+
+        // Función para cerrar el menú
+        const closeMenu = () => {
+            nav?.classList.remove("nav-open");
+            menuToggle?.classList.remove("active");
+        };
+
+        // Abrir/cerrar menú con el botón hamburguesa
+        menuToggle?.addEventListener("click", (e) => {
+            e.stopPropagation(); // Evita que se propague el evento
+            nav?.classList.toggle("nav-open");
+            menuToggle.classList.toggle("active");
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const links = document.querySelectorAll(".nav a");
+        links.forEach((link) => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        // 🔹 NUEVO: Cerrar menú al hacer clic fuera de él
+        document.addEventListener("click", (e) => {
+            // Solo si el menú está abierto
+            if (nav?.classList.contains("nav-open")) {
+                // Verificar que e.target existe y es un Node
+                const target = e.target;
+                if (target && target instanceof Node) {
+                    // Si el clic no fue dentro del nav ni en el botón hamburguesa
+                    if (
+                        !nav.contains(target) &&
+                        !menuToggle?.contains(target)
+                    ) {
+                        closeMenu();
+                    }
+                }
+            }
+        });
+
+        // Evitar que los clics dentro del nav cierren el menú
+        nav?.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+
+        // Cerrar menú si se cambia el tamaño de pantalla
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+    });
+</script>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap");
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    @keyframes fadeDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        animation: fadeDown 0.8s ease-in-out;
+        position: relative;
+    }
+
+    div {
+        display: flex;
+        padding-left: 60px;
+        color: #ea0122;
+        font-family: "Inika", serif;
+        align-items: center;
+        gap: 25px;
+    }
+
+    img {
+        height: 50px;
+        width: 50px;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin: 0;
+    }
+
+    /* 🔹 Botón hamburguesa (oculto en desktop) */
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        margin-right: 60px;
+    }
+
+    .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background-color: #ea0122;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    /* Animación del botón cuando está activo */
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* 🔹 Navegación normal (desktop) */
+    .nav ul {
+        display: flex;
+        gap: 40px;
+        padding-right: 100px;
+        margin: 0;
+        list-style: none;
+    }
+
+    li {
+        display: flex;
+        animation: fadeDown 1s ease-in-out;
+    }
+
+    a {
+        display: inline-block;
+        padding: 8px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #ea0122;
+        border-radius: 20px;
+        font-family: "Inika", serif;
+        transition: all 0.3s ease;
+    }
+
+    /* Activo (solo el link actual) */
+    a.active {
+        background-color: #ff3f5a;
+        color: wheat;
+        box-shadow: 1px 5px 10px #ea0122;
+    }
+
+    /* Hover para links normales */
+    a:hover {
+        background-color: #ff3f5a;
+        color: wheat;
+        box-shadow: 1px 5px 10px #ea0122;
+    }
+
+    /* Cuando cualquier enlace tiene hover, el activo se desactiva */
+    ul:hover a.active:not(:hover) {
+        background-color: transparent;
+        color: #ea0122;
+        box-shadow: none;
+    }
+
+    /* 🔹 MÓVIL (768px y menos) */
+    @media (max-width: 768px) {
+        header {
+            height: 80px; /* 🔹 Altura fija para móvil */
+            padding: 0 20px;
+        }
+
+        div {
+            padding-left: 0;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        img {
+            height: 40px;
+            width: 40px;
+        }
+
+        /* 🔹 Mostrar botón hamburguesa */
+        .menu-toggle {
+            display: flex;
+            margin-right: 0;
+        }
+
+        /* 🔹 Ocultar navegación por defecto */
+        .nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* 🔹 Oculto fuera de pantalla */
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🔹 Mostrar navegación cuando está activa */
+        .nav.nav-open {
+            right: 0;
+        }
+
+        .nav ul {
+            flex-direction: column;
+            gap: 20px;
+            padding: 80px 20px 20px 20px; /* 🔹 Padding top para evitar header */
+            align-items: center;
+            height: 100%;
+            justify-content: flex-start;
+        }
+
+        .nav a {
+            font-size: 22px;
+            padding: 12px 24px;
+            width: 180px;
+            text-align: center;
+        }
+
+        /* 🔹 Overlay oscuro detrás del menú */
+        .nav.nav-open::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+            z-index: -1;
+        }
+    }
+
+    /* 🔹 MÓVIL PEQUEÑO */
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 28px;
+        }
+
+        img {
+            height: 35px;
+            width: 35px;
+        }
+
+        .nav {
+            width: 100%; /* 🔹 Ancho completo en pantallas muy pequeñas */
+        }
+
+        .nav a {
+            font-size: 20px;
+            width: 160px;
+        }
+    }
+</style>

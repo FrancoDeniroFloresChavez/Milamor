@@ -1,0 +1,231 @@
+---
+// @ts-nocheck
+
+const fotos = [
+    {
+        imagen: "/Galeria/ChocoRosas.png",
+        titulo: "Choco Rosas",
+    },
+    {
+        imagen: "/Galeria/Girasol.png",
+        titulo: "Girasol",
+    },
+    {
+        imagen: "/Galeria/Lapicero.png",
+        titulo: "Lapicero",
+    },
+    {
+        imagen: "/Galeria/Ramo.png",
+        titulo: "Ramo",
+    },
+    {
+        imagen: "/Galeria/RamoKitty.png",
+        titulo: "Ramo Kitty",
+    },
+    {
+        imagen: "/Galeria/Rosas.png",
+        titulo: "Rosas",
+    },
+    {
+        imagen: "/Galeria/RosasPurpue.png",
+        titulo: "Rosas Púrpura",
+    },
+    {
+        imagen: "/Galeria/RosasSpider.png",
+        titulo: "Rosas Spider",
+    },
+];
+---
+
+<main>
+    <h2>Nuestro <span class="catalogo">Catálogo</span></h2>
+    <div class="spandescrip">
+        <span class="descrip">
+            Descubre nuestra exclusiva colección de arreglos florales, cada uno
+            diseñado con amor para hacer tus momentos especiales inolvidables
+        </span>
+    </div>
+    <section>
+        {
+            fotos.map((e, index) => (
+                <div class="container" key={index}>
+                    <div class="hover-indicator" />
+                    <img src={e.imagen} alt={e.titulo} />
+                    <h3>{e.titulo}</h3>
+                </div>
+            ))
+        }
+    </section>
+</main>
+<footer>
+    <h3>¡Necesitas algo personalizado?</h3>
+    <span>Creamos arreglos unicos segun tu gusto y ocacion especial</span>
+    <a href="/contacto">Contactanos ahora</a>
+</footer>
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,100;0,300;0,400;0,600;0,700;1,400&display=swap");
+
+    /* Reset para eliminar espacios extra */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    main {
+        background-color: #fff1f4;
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+
+    h2 {
+        font-family: "Instrument Sans";
+        text-align: center;
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .catalogo {
+        color: #ea0122;
+    }
+
+    .spandescrip {
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        color: #7f8c8d;
+        margin-bottom: 60px;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .descrip {
+        width: 550px;
+        max-width: 90%;
+    }
+
+    section {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px;
+        justify-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* OPCIÓN 1: Card con imagen circular centrada */
+
+    /* OPCIÓN 2: Card estilo polaroid */
+
+    .container {
+        width: 320px;
+        height: 400px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 20px 20px 30px 20px;
+        position: relative;
+        transform: rotate(-2deg);
+    }
+
+    .container:nth-child(even) {
+        transform: rotate(2deg);
+    }
+
+    .container:hover {
+        transform: rotate(0deg) translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .container img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }
+
+    .container h3 {
+        font-family: "Instrument Sans";
+        font-size: 20px;
+        color: #2c3e50;
+        text-align: center;
+        margin: 0;
+        font-weight: 400;
+        text-transform: lowercase;
+        font-style: italic;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        section {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .container {
+            width: 300px;
+            height: 350px;
+        }
+
+        h2 {
+            font-size: 40px;
+        }
+    }
+    footer {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        padding: 60px 20px;
+        text-align: center;
+        color: white;
+        border-radius: 20px;
+    }
+
+    footer h3 {
+        font-family: "Instrument Sans";
+        font-size: 36px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    footer span {
+        font-family: "Instrument Sans";
+        font-size: 18px;
+        font-weight: 300;
+        display: block;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    footer a {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        color: #e74c3c;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-family: "Instrument Sans";
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    footer a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        background: #f8f9fa;
+    }
+
+    footer a::before {
+        content: "💌";
+        font-size: 18px;
+    }
+</style>

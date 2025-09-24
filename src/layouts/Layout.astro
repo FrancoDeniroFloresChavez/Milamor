@@ -1,0 +1,28 @@
+---
+// @ts-nocheck
+
+import Navbvar from "../components/navbvar.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Milamor</title>
+	</head>
+	<body>
+		<Navbvar />
+		<slot />
+	</body>
+</html>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+</style>
